@@ -30,13 +30,7 @@ contract UFragmentsPolicy is Ownable {
     using SafeMathInt for int256;
     using UInt256Lib for uint256;
 
-    event LogRebase(
-        uint256 indexed epoch,
-        uint256 exchangeRate,
-        uint256 cpi,
-        int256 requestedSupplyAdjustment,
-        uint256 timestampSec
-    );
+    event LogRebase(uint256 exchangeRate, int256 supplyDelta, uint256 timestamp);
 
     IUFragments public uFrags;
 
@@ -132,7 +126,7 @@ contract UFragmentsPolicy is Ownable {
 
         uint256 supplyAfterRebase = uFrags.rebase(epoch, supplyDelta);
         assert(supplyAfterRebase <= MAX_SUPPLY);
-        emit LogRebase(epoch, exchangeRate, baseCpi, supplyDelta, block.timestamp);
+        emit LogRebase(exchangeRate, supplyDelta, block.timestamp);
     }
 
     /**
