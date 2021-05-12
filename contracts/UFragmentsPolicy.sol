@@ -218,7 +218,7 @@ contract UFragmentsPolicy is Ownable {
 
         rebaseLag = 30;
         minRebaseTimeIntervalSec = 1 days;
-        rebaseWindowOffsetSec = 72000; // 8PM UTC
+        rebaseWindowOffsetSec = 0; // 12am UTC
         rebaseWindowLengthSec = 15 minutes;
         lastRebaseTimestampSec = 0;
         epoch = 0;
