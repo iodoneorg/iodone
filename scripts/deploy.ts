@@ -10,22 +10,26 @@ async function main() {
   const uFragments = await (await ethers.getContractFactory('UFragments'))
     .connect(deployer)
     .deploy(owner)
+  await uFragments.deployTransaction.wait()
   console.log('UFragments deployed to:', uFragments.address)
 
   // deploy Policy
   const uFragmentsPolicy = await (await ethers.getContractFactory('UFragmentsPolicy'))
     .connect(deployer)
     .deploy(owner, uFragments.address, BASE_CPI.toString())
+  await uFragmentsPolicy.deployTransaction.wait()
   console.log('UFragmentsPolicy deployed to:', uFragmentsPolicy.address)
 
   // deploy Orchestrator
   const orchestrator = await (await ethers.getContractFactory('Orchestrator'))
     .connect(deployer)
     .deploy(uFragmentsPolicy.address)
+  await orchestrator.deployTransaction.wait()
   console.log('Orchestrator deployed to:', orchestrator.address)
 
   // deploy Oracle
   const oracle = await (await ethers.getContractFactory('Oracle')).connect(deployer).deploy(12)
+  await oracle.deployTransaction.wait()
   console.log('Oracle deployed to:', oracle.address)
 
   await (await uFragments.setMonetaryPolicy(uFragmentsPolicy.address)).wait()
